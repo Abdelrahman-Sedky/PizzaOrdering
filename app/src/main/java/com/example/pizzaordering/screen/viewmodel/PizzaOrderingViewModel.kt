@@ -29,7 +29,9 @@ class PizzaOrderingViewModel @Inject constructor() : ViewModel() {
 
             breads[breadIndex] = bread.copy(
                 size = size,
-                totalPrice = bread.defaultPrice + size.price,
+                totalPrice = bread.defaultPrice + size.price +
+                        bread.toppings.filter { topping -> topping.isSelected }
+                            .sumOf { topping -> topping.price },
             )
 
             it.copy(
@@ -51,6 +53,8 @@ class PizzaOrderingViewModel @Inject constructor() : ViewModel() {
 
             breads[breadIndex] = bread.copy(
                 toppings = toppings,
+                totalPrice = bread.totalPrice +
+                        if (toppings[toppingIndex].isSelected) topping.price else -topping.price,
             )
 
             it.copy(

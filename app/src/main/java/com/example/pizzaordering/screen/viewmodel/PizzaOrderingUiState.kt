@@ -24,9 +24,9 @@ data class Topping(
 )
 
 enum class Size(val price: Int) {
-    SMALL(5),
+    SMALL(0),
     MEDIUM(10),
-    LARGE(15),
+    LARGE(20),
 }
 
 

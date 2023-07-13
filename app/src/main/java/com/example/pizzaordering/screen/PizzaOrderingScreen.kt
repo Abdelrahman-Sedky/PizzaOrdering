@@ -5,12 +5,15 @@
 
 package com.example.pizzaordering.screen
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
@@ -57,6 +61,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -250,6 +255,7 @@ fun PizzaPrice(
     Text(
         modifier = modifier,
         text = totalPrice,
+        color = Color.Black,
         style = MaterialTheme.typography.titleLarge,
     )
 }
@@ -266,9 +272,9 @@ fun PizzaSizes(
             Size.MEDIUM -> 48.dp
             Size.LARGE -> 95.dp
         }, label = "size Animation",
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = LinearOutSlowInEasing
         )
     )
 
@@ -301,6 +307,7 @@ fun PizzaSizes(
         Row(
             modifier = modifier,
             horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             PizzaSize(
                 text = "S",
@@ -323,24 +330,15 @@ fun PizzaSize(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    elevation: Dp = 0.dp,
 ) {
-    TextButton(
-        modifier = modifier.size(48.dp),
-        colors = ButtonDefaults.textButtonColors(
-            containerColor = Color.Transparent,
-            contentColor = Color.Black,
-        ),
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = elevation,
-        ),
-        onClick = onClick
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge,
-        )
-    }
+    Text(
+        modifier = modifier.size(48.dp).wrapContentHeight()
+            .clickable { onClick() },
+        text = text,
+        textAlign = TextAlign.Center,
+        color = Color.Black,
+        style = MaterialTheme.typography.bodyLarge,
+    )
 }
 
 @Composable
